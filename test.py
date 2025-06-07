@@ -1,0 +1,4 @@
+from transformers import pipeline
+generator = pipeline("text-generation", model="EleutherAI/gpt-neo-1.3B")
+print(generator("Jakie są zalety piwa?", max_length=50))
+
