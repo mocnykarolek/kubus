@@ -3,6 +3,7 @@ from discord.ext import commands
 import os
 from dotenv import load_dotenv
 import random
+from airesponse import get_ai_response
 load_dotenv()
 
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -59,6 +60,15 @@ async def roll(ctx):
     try:
         random_number = random.randint(1,6)
         await ctx.send(f"Wynik na kostce to {random_number}")
+    except Exception as e:
+        print(e)
+        await ctx.send('Błąd w wyrażeniu')
+
+@bot.command()
+async def ai(ctx,*, expression: str):
+    try:
+        response = get_ai_response(expression)
+        await ctx.send(response)
     except Exception as e:
         print(e)
         await ctx.send('Błąd w wyrażeniu')

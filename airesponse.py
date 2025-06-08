@@ -1,19 +1,12 @@
-import requests
+from google import genai
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
-import os
+client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 
-
-API_TOKEN = os.getenv("API_TOKEN")
-headers = {"Authorization": f"Bearer {API_TOKEN}"}
-data = {"inputs": "Powiedz coś mądrego."}
-
-response = requests.post(
-    "https://api-inference.huggingface.co/models/gpt2",
-    headers=headers,
-    json=data,
-)
-
-print(response.status_code)
-print(response.json())
+def get_ai_response(user_input):
+    response = client.models.generate_content(
+        model="gemini-2.0-flash", contents=user_input
+    )
+    return response.text
